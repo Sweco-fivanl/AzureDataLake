@@ -62,7 +62,6 @@ namespace oh22is.Analytics.Formats
             var sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
 
             var rowCount = 1;
-            string value = null;
 
             foreach (var row in sheetData.Elements<Row>())
             {
@@ -70,6 +69,7 @@ namespace oh22is.Analytics.Formats
                 {
                     var addressName = $"{queryColumn.Name}{rowCount}";
                     var theCell = row.Descendants<Cell>().FirstOrDefault(c => c.CellReference == addressName);
+                    string value = null;
 
                     if (theCell != null)
                     {
@@ -103,7 +103,7 @@ namespace oh22is.Analytics.Formats
                         }
                     }
 
-                    output.Set<object>(queryColumn.Name, Convert.ChangeType(value, queryColumn.Type));
+                    output.Set<object>(queryColumn.Name, value != null ? Convert.ChangeType(value, queryColumn.Type) : null);
                         
                 }
 
